@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Review Podcast – Step 1 Study</title>
+  <style>
+    :root {
+      --accent: #059669;
+      --accent-light: #ecfdf5;
+      --accent-dark: #065f46;
+      --bg: #f0fdf6;
+      --card: #ffffff;
+      --text: #062318;
+      --muted: #3a7a5a;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(5,150,105,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 48px; }
+    header { background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%); color: #fff; padding: 28px 20px 22px; text-align: center; }
+    header .category-badge { display: inline-block; background: rgba(255,255,255,0.22); border-radius: 20px; padding: 3px 14px; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    header h1 { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; line-height: 1.2; }
+    header .episode-meta { margin-top: 8px; font-size: 0.85rem; opacity: 0.82; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+
+    /* Day selector strip */
+    .day-strip { background: var(--accent-dark); padding: 10px 16px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .day-strip::-webkit-scrollbar { display: none; }
+    .day-strip-inner { display: inline-flex; gap: 8px; max-width: 720px; margin: 0 auto; }
+    .day-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .day-pill.active, .day-pill:hover { background: rgba(255,255,255,0.35); border-color: #fff; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    .player-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 24px; margin-top: -18px; position: relative; z-index: 2; }
+    .player-card audio { width: 100%; border-radius: 8px; outline: none; accent-color: var(--accent); }
+    .time-display { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-top: 6px; padding: 0 2px; }
+    .section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 22px 0 10px; }
+    .timestamps { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ts-btn { background: var(--accent-light); color: var(--accent-dark); border: 1.5px solid var(--accent); border-radius: 8px; padding: 7px 13px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.18s, transform 0.12s; text-align: left; }
+    .ts-btn:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+    .ts-btn:active { transform: translateY(0); }
+    .ts-btn .ts-time { font-size: 0.7rem; opacity: 0.7; font-weight: 500; white-space: nowrap; }
+
+    /* Daily topic cards */
+    .topics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+    @media (max-width: 500px) { .topics-grid { grid-template-columns: 1fr; } }
+    .topic-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; border-top: 4px solid var(--accent); }
+    .topic-card .topic-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .topic-card .topic-title { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .topic-card .topic-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    .transcript-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px; margin-top: 18px; }
+    .transcript-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+    .transcript-toggle h2 { font-size: 1rem; font-weight: 700; }
+    .toggle-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--accent); transition: transform 0.25s; }
+    .toggle-icon.open { transform: rotate(180deg); }
+    .transcript-body { display: none; margin-top: 16px; border-top: 1px solid var(--accent-light); padding-top: 16px; }
+    .transcript-body.visible { display: block; }
+    .transcript-entry { display: grid; grid-template-columns: 56px 1fr; gap: 10px; margin-bottom: 14px; align-items: start; }
+    .tr-time { font-size: 0.72rem; font-weight: 700; color: var(--accent); cursor: pointer; padding-top: 2px; }
+    .tr-time:hover { text-decoration: underline; }
+    .tr-text { font-size: 0.88rem; line-height: 1.6; color: var(--text); }
+    .tr-speaker { font-weight: 700; color: var(--accent-dark); margin-right: 4px; }
+    .concepts-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px; margin-top: 18px; }
+    .concepts-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .concept-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .concept-list li { background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 6px; padding: 9px 14px; font-size: 0.85rem; line-height: 1.45; }
+    .concept-list li strong { color: var(--accent-dark); }
+    .nav-bar { display: flex; justify-content: center; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+    .nav-btn { background: var(--card); color: var(--accent-dark); border: 1.5px solid var(--accent); border-radius: 8px; padding: 9px 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.18s; }
+    .nav-btn:hover { background: var(--accent); color: #fff; }
+    .nav-btn.home { background: var(--accent); color: #fff; }
+    .nav-btn.home:hover { background: var(--accent-dark); }
+    @media (max-width: 500px) { header { padding: 22px 16px 18px; } .player-card, .transcript-card, .concepts-card { padding: 18px 16px; } .ts-btn { font-size: 0.75rem; padding: 6px 10px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="category-badge">📅 Daily Review</div>
+  <h1>Day 1: Cross-System High-Yield Blitz</h1>
+  <div class="episode-meta">
+    <span>⏱ 20 min</span>
+    <span>📅 Daily Series</span>
+    <span>📚 Step 1 Prep</span>
+  </div>
+</header>
+
+<!-- Day navigation strip -->
+<div class="day-strip">
+  <div class="day-strip-inner">
+    <a href="day1.html" class="day-pill active">Day 1</a>
+    <a href="day2.html" class="day-pill">Day 2</a>
+    <a href="day3.html" class="day-pill">Day 3</a>
+    <a href="day4.html" class="day-pill">Day 4</a>
+    <a href="day5.html" class="day-pill">Day 5</a>
+    <a href="day6.html" class="day-pill">Day 6</a>
+    <a href="day7.html" class="day-pill">Day 7</a>
+    <a href="day8.html" class="day-pill">Day 8</a>
+    <a href="day9.html" class="day-pill">Day 9</a>
+    <a href="day10.html" class="day-pill">Day 10</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="player-card">
+    <audio id="mainAudio" controls preload="metadata">
+      <source src="day1.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">--:--</span>
+    </div>
+    <div class="section-title">Jump to Section</div>
+    <div class="timestamps">
+      <button class="ts-btn" onclick="jumpTo(0)">🟢 Intro <span class="ts-time">0:00</span></button>
+      <button class="ts-btn" onclick="jumpTo(120)">🥗 Nutrition Flash <span class="ts-time">2:00</span></button>
+      <button class="ts-btn" onclick="jumpTo(360)">📊 Biostats Flash <span class="ts-time">6:00</span></button>
+      <button class="ts-btn" onclick="jumpTo(600)">🦠 Micro Flash <span class="ts-time">10:00</span></button>
+      <button class="ts-btn" onclick="jumpTo(840)">❤️ Cardio Flash <span class="ts-time">14:00</span></button>
+      <button class="ts-btn" onclick="jumpTo(1080)">📝 Rapid-Fire Q&amp;A <span class="ts-time">18:00</span></button>
+    </div>
+  </div>
+
+  <!-- Today's topic cards -->
+  <div class="topics-grid">
+    <div class="topic-card">
+      <div class="topic-label">🥗 Nutrition</div>
+      <div class="topic-title">B-Vitamin Deficiencies</div>
+      <div class="topic-desc">Thiamine, Riboflavin, Niacin, B6, B12 — clinical presentations &amp; associations.</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-label">📊 Biostats</div>
+      <div class="topic-title">Sensitivity &amp; Specificity</div>
+      <div class="topic-desc">SnNout / SpPin rules, 2×2 table, effect of prevalence on PPV/NPV.</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-label">🦠 Micro</div>
+      <div class="topic-title">Encapsulated Organisms</div>
+      <div class="topic-desc">SHiNE MY SHOES mnemonic — who's at risk and why (asplenia).</div>
+    </div>
+    <div class="topic-card">
+      <div class="topic-label">❤️ Cardio</div>
+      <div class="topic-title">Systolic vs Diastolic HF</div>
+      <div class="topic-desc">EF criteria, clinical features, and first-line pharmacotherapy for each.</div>
+    </div>
+  </div>
+
+  <div class="concepts-card">
+    <h2>🎯 Today's High-Yield Facts</h2>
+    <ul class="concept-list">
+      <li><strong>Thiamine (B1):</strong> Deficiency → Wernicke's encephalopathy (confusion, ophthalmoplegia, ataxia) → Korsakoff's (confabulation). Give thiamine before glucose in alcoholics.</li>
+      <li><strong>SnNout:</strong> Sensitive test, when Negative, rules Out disease. SpPin: Specific test, when Positive, rules In disease.</li>
+      <li><strong>Encapsulated organisms:</strong> S. pneumoniae, H. influenzae, N. meningitidis, E. coli, Group B Strep, Klebsiella, Salmonella. Asplenic patients: vaccinate against these.</li>
+      <li><strong>HFrEF (systolic HF):</strong> EF &lt;40%. Dilated heart. Drugs with mortality benefit: ACEi/ARB, β-blocker, spironolactone, SGLT-2 inhibitors (newer).</li>
+      <li><strong>HFpEF (diastolic HF):</strong> EF &gt;50%. Stiff/hypertrophied ventricle. Control hypertension and rate. No mortality-reducing drugs firmly established.</li>
+    </ul>
+  </div>
+
+  <div class="transcript-card">
+    <div class="transcript-toggle" onclick="toggleTranscript()">
+      <h2>📄 Transcript</h2>
+      <div class="toggle-icon" id="toggleIcon">▼</div>
+    </div>
+    <div class="transcript-body" id="transcriptBody">
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(0)">0:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Welcome to your Day 1 daily review — a 20-minute cross-system blitz hitting the highest-yield concepts across nutrition, biostats, micro, and cardiology. Use this every morning to reinforce what you've studied...</p>
+      </div>
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(120)">2:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Nutrition flash — B-vitamin deficiencies. Thiamine: beriberi (wet = cardiac, dry = peripheral neuropathy) and Wernicke-Korsakoff in alcoholics. Always give thiamine before glucose. Riboflavin: corneal vascularization, cheilosis, glossitis — the 2 C's...</p>
+      </div>
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(360)">6:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Biostats flash — sensitivity and specificity are fixed properties of the test and do NOT change with prevalence. PPV and NPV DO change with prevalence. Higher prevalence = higher PPV. Lower prevalence = higher NPV. Use SnNout for screening, SpPin for confirmation...</p>
+      </div>
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(600)">10:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Micro flash — encapsulated organisms. The mnemonic SHiNE MY SHOES: Strep pneumo, H. influenzae, Neisseria meningitidis, E. coli, Moraxella catarrhalis, Yes = group B Strep, Salmonella. Asplenic patients cannot clear these efficiently. They need vaccinations against Pneumococcus, Meningococcus, and H. influenzae type b...</p>
+      </div>
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(840)">14:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Cardio flash — systolic heart failure has reduced EF, dilated cardiomyopathy appearance, and responds to ACE inhibitors, beta blockers, aldosterone antagonists. Diastolic HF has preserved EF but a stiff ventricle that can't relax. Management focuses on rate control and treating the underlying cause like hypertension...</p>
+      </div>
+      <div class="transcript-entry">
+        <span class="tr-time" onclick="jumpTo(1080)">18:00</span>
+        <p class="tr-text"><span class="tr-speaker">Host:</span> Rapid-fire Q&A — what deficiency causes pellagra? Niacin (B3). What test would you use to screen for a rare disease — high sensitivity or high specificity? High sensitivity. What is the most common organism in asplenic sepsis? Strep pneumoniae. What is the first drug to start in a new systolic HF patient? ACE inhibitor. Great work — see you tomorrow...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <a href="../index.html" class="nav-btn home">🏠 All Categories</a>
+    <a href="#" class="nav-btn">← Day 0</a>
+    <a href="day2.html" class="nav-btn">Day 2 →</a>
+  </div>
+</div>
+
+<script>
+  const audio = document.getElementById('mainAudio');
+  const currentTimeEl = document.getElementById('currentTime');
+  const durationEl = document.getElementById('duration');
+  function formatTime(s) { const m = Math.floor(s/60); const sec = Math.floor(s%60); return `${m}:${sec.toString().padStart(2,'0')}`; }
+  audio.addEventListener('timeupdate', () => { currentTimeEl.textContent = formatTime(audio.currentTime); });
+  audio.addEventListener('loadedmetadata', () => { durationEl.textContent = formatTime(audio.duration); });
+  function jumpTo(seconds) { audio.currentTime = seconds; audio.play(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function toggleTranscript() { document.getElementById('transcriptBody').classList.toggle('visible'); document.getElementById('toggleIcon').classList.toggle('open'); }
+</script>
+</body>
+</html>
