@@ -443,8 +443,7 @@
     let isPlaying = false;
     let selectedVoice = "aria";
     let cancelFlag = { cancelled: false };
-    let currentAudio = null;
-    let currentUtterance = null;
+    
 
     // ===== DOM REFS =====
     const hubView = document.getElementById('hub-view');
@@ -602,46 +601,48 @@
         if (cancelFlag.cancelled) break;
         currentSectionIndex = i;
         updateUI();
-        try {
-          await new Promise((resolve, reject) => {
-            const utterance = new SpeechSynthesisUtterance(currentPodcast.sections[i].text);
-            // Map voice names to preferred system voices
-            const voices = window.speechSynthesis.getVoices();
-            const voiceMap = {
-              'aria': { rate: 1.0, pitch: 1.0, match: ['Aria', 'Samantha', 'Karen'] },
-              'guy': { rate: 1.0, pitch: 0.85, match: ['Guy', 'Daniel', 'Alex'] },
-              'jenny': { rate: 1.05, pitch: 1.1, match: ['Jenny', 'Moira', 'Fiona'] },
-              'tony': { rate: 0.95, pitch: 0.8, match: ['Tony', 'Tom', 'Oliver'] },
-              'sonia': { rate: 1.0, pitch: 1.05, match: ['Sonia', 'Tessa', 'Serena'] },
-              'ryan': { rate: 1.0, pitch: 0.9, match: ['Ryan', 'Rishi', 'James'] }
-            };
-            const voicePref = voiceMap[selectedVoice] || voiceMap['aria'];
-            utterance.rate = voicePref.rate;
-            utterance.pitch = voicePref.pitch;
-
-            // Try to find matching voice by name
-            let bestVoice = null;
-            for (const name of voicePref.match) {
-              bestVoice = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
-              if (bestVoice) break;
-            }
-            if (!bestVoice) bestVoice = voices.find(v => v.lang.startsWith('en'));
-            if (bestVoice) utterance.voice = bestVoice;
-            
-            utterance.onend = resolve;
-            utterance.onerror = (e) => {
-              if (e.error === 'canceled' || cancelFlag.cancelled) resolve();
-              else reject(e);
-            };
-            currentUtterance = utterance;
-            window.speechSynthesis.speak(utterance);
-          });
-          currentUtterance = null;
-        } catch (e) {
+        // Split section into sentences so TTS gets bite-sized chunks
+        const sentences = currentPodcast.sections[i].text
+          .split(/(?<=[.!?])\s+/)
+          .filter(s => s.trim().length > 0);
+        for (const sentence of sentences) {
           if (cancelFlag.cancelled) break;
-          console.error('TTS error:', e);
-          nowPlayingLabel.textContent = '⚠️ Audio error — skipping...';
-          await new Promise(r => setTimeout(r, 1500));
+          try {
+            await new Promise((resolve, reject) => {
+              const utterance = new SpeechSynthesisUtterance(sentence);
+              // Voice mapping
+              const voices = window.speechSynthesis.getVoices();
+              const voiceMap = {
+                'aria': { rate: 1.0, pitch: 1.0, match: ['Aria', 'Samantha', 'Karen'] },
+                'guy': { rate: 1.0, pitch: 0.85, match: ['Guy', 'Daniel', 'Alex'] },
+                'jenny': { rate: 1.05, pitch: 1.1, match: ['Jenny', 'Moira', 'Fiona'] },
+                'tony': { rate: 0.95, pitch: 0.8, match: ['Tony', 'Tom', 'Oliver'] },
+                'sonia': { rate: 1.0, pitch: 1.05, match: ['Sonia', 'Tessa', 'Serena'] },
+                'ryan': { rate: 1.0, pitch: 0.9, match: ['Ryan', 'Rishi', 'James'] }
+              };
+              const voicePref = voiceMap[selectedVoice] || voiceMap['aria'];
+              utterance.rate = voicePref.rate;
+              utterance.pitch = voicePref.pitch;
+              let bestVoice = null;
+              for (const name of voicePref.match) {
+                bestVoice = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+                if (bestVoice) break;
+              }
+              if (!bestVoice) bestVoice = voices.find(v => v.lang.startsWith('en'));
+              if (bestVoice) utterance.voice = bestVoice;
+              utterance.onend = resolve;
+              utterance.onerror = (e) => {
+                if (e.error === 'canceled' || cancelFlag.cancelled) resolve();
+                else reject(e);
+              };
+              window.speechSynthesis.speak(utterance);
+            });
+          } catch (e) {
+            if (cancelFlag.cancelled) break;
+            console.error('TTS error:', e);
+            nowPlayingLabel.textContent = '⚠️ Audio error — retrying...';
+            await new Promise(r => setTimeout(r, 800));
+          }
         }
         if (cancelFlag.cancelled) break;
       }
@@ -666,11 +667,6 @@
       cancelFlag.cancelled = true;
       isPlaying = false;
       window.speechSynthesis.cancel();
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio = null;
-      }
-      currentUtterance = null;
       if (currentPodcast) updateUI();
     }
 
