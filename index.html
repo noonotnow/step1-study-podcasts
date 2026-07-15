@@ -194,12 +194,12 @@
         <div data-id="63" class="flex items-center gap-3 flex-wrap">
           <span data-id="64" class="text-sm font-medium text-slate-300 flex-shrink-0">🎙️ Voice:</span>
           <div data-id="65" class="flex flex-wrap gap-2" id="voice-selector">
-            <button data-id="66" data-voice="aster" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Aster</button>
-            <button data-id="67" data-voice="dan" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Dan</button>
-            <button data-id="68" data-voice="brook" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Brook</button>
-            <button data-id="69" data-voice="rio" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Rio</button>
-            <button data-id="70" data-voice="jazz" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Jazz</button>
-            <button data-id="71" data-voice="marilyn" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Marilyn</button>
+            <button data-voice="aria" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Aria</button>
+            <button data-voice="guy" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Guy</button>
+            <button data-voice="jenny" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Jenny</button>
+            <button data-voice="tony" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Tony</button>
+            <button data-voice="sonia" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Sonia</button>
+            <button data-voice="ryan" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Ryan</button>
           </div>
         </div>
       </div>
@@ -441,7 +441,7 @@
     let currentPodcast = null;
     let currentSectionIndex = 0;
     let isPlaying = false;
-    let selectedVoice = "aster";
+    let selectedVoice = "aria";
     let cancelFlag = { cancelled: false };
     let currentAudio = null;
     let currentUtterance = null;
@@ -605,15 +605,28 @@
         try {
           await new Promise((resolve, reject) => {
             const utterance = new SpeechSynthesisUtterance(currentPodcast.sections[i].text);
-            utterance.rate = selectedVoice === 'calm' ? 0.9 : selectedVoice === 'energetic' ? 1.1 : 1.0;
-            utterance.pitch = selectedVoice === 'energetic' ? 1.1 : 1.0;
-            
-            // Try to find a good voice
+            // Map voice names to preferred system voices
             const voices = window.speechSynthesis.getVoices();
-            const preferred = voices.find(v => v.lang.startsWith('en') && v.name.includes('Samantha')) 
-              || voices.find(v => v.lang.startsWith('en') && !v.localService === false)
-              || voices.find(v => v.lang.startsWith('en'));
-            if (preferred) utterance.voice = preferred;
+            const voiceMap = {
+              'aria': { rate: 1.0, pitch: 1.0, match: ['Aria', 'Samantha', 'Karen'] },
+              'guy': { rate: 1.0, pitch: 0.85, match: ['Guy', 'Daniel', 'Alex'] },
+              'jenny': { rate: 1.05, pitch: 1.1, match: ['Jenny', 'Moira', 'Fiona'] },
+              'tony': { rate: 0.95, pitch: 0.8, match: ['Tony', 'Tom', 'Oliver'] },
+              'sonia': { rate: 1.0, pitch: 1.05, match: ['Sonia', 'Tessa', 'Serena'] },
+              'ryan': { rate: 1.0, pitch: 0.9, match: ['Ryan', 'Rishi', 'James'] }
+            };
+            const voicePref = voiceMap[selectedVoice] || voiceMap['aria'];
+            utterance.rate = voicePref.rate;
+            utterance.pitch = voicePref.pitch;
+
+            // Try to find matching voice by name
+            let bestVoice = null;
+            for (const name of voicePref.match) {
+              bestVoice = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+              if (bestVoice) break;
+            }
+            if (!bestVoice) bestVoice = voices.find(v => v.lang.startsWith('en'));
+            if (bestVoice) utterance.voice = bestVoice;
             
             utterance.onend = resolve;
             utterance.onerror = (e) => {
