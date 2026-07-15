@@ -593,10 +593,29 @@
       });
     }
 
+    // ===== TTS KEEP-ALIVE (Chrome/Safari bug workaround) =====
+    let keepAliveInterval = null;
+    function startKeepAlive() {
+      stopKeepAlive();
+      keepAliveInterval = setInterval(() => {
+        if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        }
+      }, 10000);
+    }
+    function stopKeepAlive() {
+      if (keepAliveInterval) {
+        clearInterval(keepAliveInterval);
+        keepAliveInterval = null;
+      }
+    }
+
     // ===== TTS PLAYBACK =====
     async function playSections(startIndex) {
       cancelFlag = { cancelled: false };
       isPlaying = true;
+      startKeepAlive();
       for (let i = startIndex; i < currentPodcast.sections.length; i++) {
         if (cancelFlag.cancelled) break;
         currentSectionIndex = i;
@@ -666,6 +685,7 @@
     function pausePlayback() {
       cancelFlag.cancelled = true;
       isPlaying = false;
+      stopKeepAlive();
       window.speechSynthesis.cancel();
       if (currentPodcast) updateUI();
     }
