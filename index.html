@@ -444,6 +444,7 @@
     let selectedVoice = "aster";
     let cancelFlag = { cancelled: false };
     let currentAudio = null;
+    let currentUtterance = null;
 
     // ===== DOM REFS =====
     const hubView = document.getElementById('hub-view');
@@ -602,24 +603,30 @@
         currentSectionIndex = i;
         updateUI();
         try {
-          const result = await AppSDK.ai.speak({
-            text: currentPodcast.sections[i].text,
-            voice: selectedVoice,
-            audioFormat: 'mp3'
-          });
-          if (cancelFlag.cancelled) break;
-          const audio = new Audio(`data:audio/${result.format};base64,${result.audio}`);
-          currentAudio = audio;
           await new Promise((resolve, reject) => {
-            audio.addEventListener('ended', resolve);
-            audio.addEventListener('error', reject);
-            audio.play().catch(reject);
+            const utterance = new SpeechSynthesisUtterance(currentPodcast.sections[i].text);
+            utterance.rate = selectedVoice === 'calm' ? 0.9 : selectedVoice === 'energetic' ? 1.1 : 1.0;
+            utterance.pitch = selectedVoice === 'energetic' ? 1.1 : 1.0;
+            
+            // Try to find a good voice
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith('en') && v.name.includes('Samantha')) 
+              || voices.find(v => v.lang.startsWith('en') && !v.localService === false)
+              || voices.find(v => v.lang.startsWith('en'));
+            if (preferred) utterance.voice = preferred;
+            
+            utterance.onend = resolve;
+            utterance.onerror = (e) => {
+              if (e.error === 'canceled' || cancelFlag.cancelled) resolve();
+              else reject(e);
+            };
+            currentUtterance = utterance;
+            window.speechSynthesis.speak(utterance);
           });
-          currentAudio = null;
+          currentUtterance = null;
         } catch (e) {
           if (cancelFlag.cancelled) break;
           console.error('TTS error:', e);
-          // Show error briefly then continue
           nowPlayingLabel.textContent = '⚠️ Audio error — skipping...';
           await new Promise(r => setTimeout(r, 1500));
         }
@@ -645,10 +652,12 @@
     function pausePlayback() {
       cancelFlag.cancelled = true;
       isPlaying = false;
+      window.speechSynthesis.cancel();
       if (currentAudio) {
         currentAudio.pause();
         currentAudio = null;
       }
+      currentUtterance = null;
       if (currentPodcast) updateUI();
     }
 
