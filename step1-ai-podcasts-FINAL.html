@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step 1 AI Study Podcasts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+              600: '#475569',
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <style>
+    :root {
+      --accent: #3a9e6f;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+      min-height: 100vh;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+    .speaking-dot {
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+    .section-text-fade {
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .voice-pill {
+      transition: all 0.15s ease;
+    }
+    .section-pill {
+      transition: all 0.15s ease;
+    }
+    .section-pill:hover {
+      transform: translateY(-1px);
+    }
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .card-hover {
+      transition: all 0.2s ease;
+    }
+    .transcript-scroll {
+      max-height: 180px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.15) transparent;
+    }
+    .transcript-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .transcript-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .transcript-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.15);
+      border-radius: 4px;
+    }
+    .progress-fill {
+      transition: width 0.4s ease;
+    }
+    .hy-bullet {
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body data-id="0" class="flex flex-col min-h-screen">
+  <app-icon data-id="1" hidden data-icon="headphones" data-palette="Green"></app-icon>
+  <app-disclaimer data-id="2" intent="medical"></app-disclaimer>
+
+  <!-- ====== HUB VIEW ====== -->
+  <div data-id="3" id="hub-view">
+    <!-- Header -->
+    <header data-id="4" class="bg-navy-800 border-b border-white/5 px-4 md:px-8 py-5">
+      <div data-id="5" class="max-w-3xl mx-auto flex items-center gap-3">
+        <span data-id="6" class="text-2xl">🎙️</span>
+        <div data-id="7">
+          <h1 data-id="8" class="text-xl md:text-2xl font-bold text-white tracking-tight">Step 1 AI Study Podcasts</h1>
+          <p data-id="9" class="text-xs md:text-sm text-slate-400 mt-0.5">AI-narrated. No MP3s needed.</p>
+        </div>
+      </div>
+    </header>
+
+    <main data-id="10" class="max-w-3xl mx-auto px-4 md:px-8 py-6 pb-16">
+      <!-- Daily Review Banner -->
+      <button data-id="11" id="daily-banner" class="w-full rounded-2xl p-5 md:p-6 mb-6 text-left card-hover cursor-pointer border-0" style="background: linear-gradient(135deg, #059669 0%, #34d399 100%);">
+        <div data-id="12" class="flex items-center gap-3">
+          <span data-id="13" class="text-3xl">📅</span>
+          <div data-id="14">
+            <p data-id="15" class="text-xs font-semibold uppercase tracking-wider text-white/70">Daily Review</p>
+            <h2 data-id="16" class="text-lg md:text-xl font-bold text-white">Day 1: Cross-System High-Yield Blitz</h2>
+            <p data-id="17" class="text-sm text-white/80 mt-1">20 min · Rapid-fire review across all systems</p>
+          </div>
+          <i data-id="18" data-lucide="play-circle" class="w-8 h-8 text-white/80 ml-auto flex-shrink-0"></i>
+        </div>
+      </button>
+
+      <!-- Category Grid -->
+      <div data-id="19" class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <button data-id="20" data-cat="nutrition" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #3a9e6f;">
+          <span data-id="21" class="text-2xl block mb-2">🥗</span>
+          <h3 data-id="22" class="text-sm font-semibold text-white">Nutrition</h3>
+          <p data-id="23" class="text-xs text-slate-400 mt-1 leading-relaxed">Macronutrients & Metabolism</p>
+        </button>
+        <button data-id="24" data-cat="biostats" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #2a7fd4;">
+          <span data-id="25" class="text-2xl block mb-2">📊</span>
+          <h3 data-id="26" class="text-sm font-semibold text-white">Biostats</h3>
+          <p data-id="27" class="text-xs text-slate-400 mt-1 leading-relaxed">Study Design & Statistical Tests</p>
+        </button>
+        <button data-id="28" data-cat="micro" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #7c3aed;">
+          <span data-id="29" class="text-2xl block mb-2">🦠</span>
+          <h3 data-id="30" class="text-sm font-semibold text-white">Micro</h3>
+          <p data-id="31" class="text-xs text-slate-400 mt-1 leading-relaxed">Bacteria: Cell Wall & Gram Staining</p>
+        </button>
+        <button data-id="32" data-cat="pharm" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #e05c1a;">
+          <span data-id="33" class="text-2xl block mb-2">💊</span>
+          <h3 data-id="34" class="text-sm font-semibold text-white">Pharm</h3>
+          <p data-id="35" class="text-xs text-slate-400 mt-1 leading-relaxed">Autonomic Pharmacology</p>
+        </button>
+        <button data-id="36" data-cat="cardio" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #dc2626;">
+          <span data-id="37" class="text-2xl block mb-2">❤️</span>
+          <h3 data-id="38" class="text-sm font-semibold text-white">Cardio</h3>
+          <p data-id="39" class="text-xs text-slate-400 mt-1 leading-relaxed">Heart Failure & Cardiac Output</p>
+        </button>
+        <button data-id="40" data-cat="endo" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #d97706;">
+          <span data-id="41" class="text-2xl block mb-2">🧬</span>
+          <h3 data-id="42" class="text-sm font-semibold text-white">Endo</h3>
+          <p data-id="43" class="text-xs text-slate-400 mt-1 leading-relaxed">Diabetes & Insulin Physiology</p>
+        </button>
+        <button data-id="44" data-cat="neuro" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #0891b2;">
+          <span data-id="45" class="text-2xl block mb-2">🧠</span>
+          <h3 data-id="46" class="text-sm font-semibold text-white">Neuro</h3>
+          <p data-id="47" class="text-xs text-slate-400 mt-1 leading-relaxed">Stroke Syndromes & Neuroanatomy</p>
+        </button>
+        <button data-id="48" data-cat="daily" class="cat-card card-hover bg-navy-800 rounded-2xl p-4 text-left cursor-pointer border-0 border-t-4" style="border-top-color: #059669;">
+          <span data-id="49" class="text-2xl block mb-2">📅</span>
+          <h3 data-id="50" class="text-sm font-semibold text-white">Daily</h3>
+          <p data-id="51" class="text-xs text-slate-400 mt-1 leading-relaxed">Cross-System High-Yield Blitz</p>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ====== PLAYER VIEW ====== -->
+  <div data-id="52" id="player-view" class="hidden">
+    <!-- Player Header -->
+    <header data-id="53" id="player-header" class="px-4 md:px-8 py-4 border-b border-white/5">
+      <div data-id="54" class="max-w-3xl mx-auto flex items-center gap-3">
+        <button data-id="55" id="back-btn" class="p-2 -ml-2 rounded-xl hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+          <i data-id="56" data-lucide="arrow-left" class="w-5 h-5 text-white"></i>
+        </button>
+        <span data-id="57" id="player-badge" class="text-sm font-medium px-3 py-1 rounded-full text-white/90" style="background: rgba(255,255,255,0.15);"></span>
+        <div data-id="58" class="ml-1 min-w-0">
+          <h2 data-id="59" id="player-title" class="text-sm md:text-base font-semibold text-white truncate"></h2>
+          <p data-id="60" id="player-meta" class="text-xs text-white/60 mt-0.5"></p>
+        </div>
+      </div>
+    </header>
+
+    <main data-id="61" class="max-w-3xl mx-auto px-4 md:px-8 py-5 pb-16 space-y-4">
+      <!-- Voice Selector -->
+      <div data-id="62" class="bg-navy-800 rounded-2xl p-4">
+        <div data-id="63" class="flex items-center gap-3 flex-wrap">
+          <span data-id="64" class="text-sm font-medium text-slate-300 flex-shrink-0">🎙️ Voice:</span>
+          <div data-id="65" class="flex flex-wrap gap-2" id="voice-selector">
+            <button data-id="66" data-voice="Aria" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Aria</button>
+            <button data-id="67" data-voice="Guy" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Guy</button>
+            <button data-id="68" data-voice="Jenny" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]"">Jenny</button>
+            <button data-id="69" data-voice="Tony" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Tony</button>
+            <button data-id="70" data-voice="Sonia" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Sonia</button>
+            <button data-id="71" data-voice="Ryan" class="voice-pill text-xs font-medium px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 min-h-[32px]">Ryan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Buttons -->
+      <div data-id="72" class="bg-navy-800 rounded-2xl p-4">
+        <p data-id="73" class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Jump to Section</p>
+        <div data-id="74" id="section-buttons" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- Now Playing -->
+      <div data-id="75" class="bg-white rounded-2xl p-5 shadow-lg shadow-black/20">
+        <div data-id="76" class="flex items-center gap-2 mb-3">
+          <span data-id="77" id="speaking-indicator" class="inline-block w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+          <span data-id="78" id="now-playing-label" class="text-sm font-semibold text-slate-800">Ready</span>
+        </div>
+        <div data-id="79" id="now-playing-text" class="transcript-scroll text-sm text-slate-600 leading-relaxed section-text-fade">
+          <p data-id="80" class="text-slate-400 italic">Select a section or press Play to begin.</p>
+        </div>
+      </div>
+
+      <!-- Playback Controls -->
+      <div data-id="81" class="flex items-center justify-center gap-4 py-2">
+        <button data-id="82" id="prev-btn" class="p-3 rounded-xl hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+          <i data-id="83" data-lucide="skip-back" class="w-5 h-5 text-white"></i>
+        </button>
+        <button data-id="84" id="play-btn" class="p-4 rounded-full text-white min-h-[56px] min-w-[56px] flex items-center justify-center transition-colors" style="background: var(--accent);">
+          <i data-id="85" data-lucide="play" class="w-6 h-6" id="play-icon"></i>
+        </button>
+        <button data-id="86" id="next-btn" class="p-3 rounded-xl hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+          <i data-id="87" data-lucide="skip-forward" class="w-5 h-5 text-white"></i>
+        </button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div data-id="88" class="bg-navy-800 rounded-2xl p-4">
+        <div data-id="89" class="flex items-center justify-between mb-2">
+          <span data-id="90" id="progress-label" class="text-xs font-medium text-slate-400">Section 0 / 0</span>
+          <span data-id="91" id="progress-status" class="text-xs font-medium text-slate-500"></span>
+        </div>
+        <div data-id="92" class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+          <div data-id="93" id="progress-bar" class="h-full rounded-full progress-fill" style="width: 0%; background: var(--accent);"></div>
+        </div>
+      </div>
+
+      <!-- High-Yield Concepts -->
+      <div data-id="94" class="bg-navy-800 rounded-2xl p-5">
+        <h3 data-id="95" class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <i data-id="96" data-lucide="zap" class="w-4 h-4" style="color: var(--accent);"></i>
+          High-Yield Concepts
+        </h3>
+        <div data-id="97" id="high-yield-list" class="space-y-2"></div>
+      </div>
+    </main>
+  </div>
+
+  <footer data-id="98" class="py-6 mt-auto text-center">
+    <p data-id="99" class="text-xs text-slate-500">Made by Copilot</p>
+  </footer>
+
+  <script>
+    // Guard Lucide
+    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+      lucide.createIcons();
+    }
+
+    // ===== PODCAST DATA =====
+    const podcasts = {
+      nutrition: {
+        emoji: "🥗", name: "Nutrition", color: "#3a9e6f",
+        title: "Macronutrients & Metabolism", week: "Week 1", duration: "~42 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Nutrition — the high-yield podcast for USMLE prep. Today we're covering macronutrients and metabolism, one of the most tested areas on Step 1. By the end of this episode you'll be able to trace a glucose molecule through every metabolic pathway, identify vitamin deficiency presentations from a vignette, and nail the kwashiorkor versus marasmus distinction. Let's get started." },
+          { name: "Carbohydrate Metabolism", emoji: "🍬", time: "2:30", text: "Glycolysis occurs in the cytoplasm and generates a net 2 ATP under anaerobic conditions. The rate-limiting enzyme is phosphofructokinase-1, inhibited by ATP and citrate and activated by AMP and fructose-2,6-bisphosphate. Under aerobic conditions, pyruvate enters the mitochondria and is converted to acetyl-CoA by pyruvate dehydrogenase — this enzyme requires thiamine, lipoic acid, CoA, FAD, and NAD as cofactors, remembered by the mnemonic 'Tender Loving Care For Nancy'. The TCA cycle then generates 3 NADH, 1 FADH2, and 1 GTP per acetyl-CoA. Oxidative phosphorylation ultimately produces a total of 30 to 32 ATP per glucose molecule." },
+          { name: "Fat Metabolism & β-Oxidation", emoji: "🧈", time: "9:00", text: "Fatty acid oxidation, also called beta-oxidation, occurs in the mitochondrial matrix. Long-chain fatty acids cannot cross the inner mitochondrial membrane on their own — they require the carnitine shuttle. Carnitine acyltransferase I on the outer membrane is the rate-limiting step and is inhibited by malonyl-CoA, which signals the fed state. Each round of beta-oxidation produces one NADH, one FADH2, and one acetyl-CoA. Importantly, fatty acid synthesis is the reverse process but occurs in the cytoplasm, uses NADPH, and is driven by acetyl-CoA carboxylase — the rate-limiting enzyme activated by insulin and inhibited by glucagon." },
+          { name: "Amino Acid Catabolism", emoji: "🧪", time: "15:00", text: "Most amino acids are glucogenic, meaning they can be converted to glucose precursors. Leucine and lysine are purely ketogenic — they can only form ketone bodies, never glucose. Several amino acids are both, including isoleucine, phenylalanine, tryptophan, and tyrosine. The urea cycle is essential for nitrogen disposal — it occurs in the liver and converts toxic ammonia to urea. Key enzyme deficiencies present in neonates with hyperammonemia, encephalopathy, and respiratory alkalosis from ammonia stimulating the respiratory center. Ornithine transcarbamylase deficiency is the most common urea cycle disorder and is X-linked recessive." },
+          { name: "Vitamins & Cofactors", emoji: "💊", time: "22:00", text: "Thiamine, vitamin B1, is a cofactor for pyruvate dehydrogenase, alpha-ketoglutarate dehydrogenase, and transketolase in the pentose phosphate pathway. Deficiency causes Wernicke's encephalopathy — confusion, ophthalmoplegia, and ataxia — which progresses to Korsakoff's syndrome with confabulation. Always give thiamine before glucose in alcoholic patients. Riboflavin, B2, is a component of FAD and FMN. Niacin, B3, forms NAD and NADP. Pantothenic acid, B5, forms Coenzyme A. Pyridoxine, B6, is critical for transamination reactions and heme synthesis. Folate is essential for DNA synthesis — deficiency causes megaloblastic anemia without neurological symptoms." },
+          { name: "Nutritional Deficiencies", emoji: "⚠️", time: "30:00", text: "Pellagra results from niacin or tryptophan deficiency and presents with the 3 D's: Dermatitis in sun-exposed areas, Diarrhea, and Dementia. Scurvy from vitamin C deficiency presents with perifollicular hemorrhage, corkscrew hairs, poor wound healing, and bleeding gums — because vitamin C is required for hydroxylation of proline and lysine in collagen synthesis. Vitamin A deficiency causes night blindness and xerophthalmia. Zinc deficiency causes delayed wound healing, hypogonadism, anosmia, and acrodermatitis enteropathica. Kwashiorkor is protein deficiency with adequate calories — presents with edema from low oncotic pressure, fatty liver, skin changes, and a distended abdomen. Marasmus is total calorie deficiency — presents with muscle wasting but no edema." },
+          { name: "High-Yield Review", emoji: "🎯", time: "38:00", text: "Let's lock in the highest-yield points from today. Glycolysis net yield is 2 ATP — pyruvate dehydrogenase needs Tender Loving Care For Nancy. Beta-oxidation is in the mitochondria, fatty acid synthesis in the cytoplasm — malonyl-CoA inhibits carnitine shuttle. Leucine and lysine are purely ketogenic. In the urea cycle, OTC deficiency is the most common and is X-linked. Thiamine before glucose in alcoholics. Kwashiorkor has edema because of protein deficiency — marasmus has wasting but no edema. Pellagra is the 3 D's from niacin deficiency. Vitamin C deficiency impairs collagen hydroxylation causing scurvy. Study these cold and you will dominate the nutrition questions on Step 1." }
+        ],
+        highYield: [
+          { term: "PFK-1", fact: "Rate-limiting enzyme of glycolysis; inhibited by ATP & citrate" },
+          { term: "PDH cofactors", fact: "Thiamine, Lipoic acid, CoA, FAD, NAD — 'Tender Loving Care For Nancy'" },
+          { term: "Carnitine shuttle", fact: "Required for long-chain FA entry into mitochondria; inhibited by malonyl-CoA" },
+          { term: "Leucine & Lysine", fact: "Only purely ketogenic amino acids" },
+          { term: "OTC deficiency", fact: "Most common urea cycle disorder; X-linked recessive" },
+          { term: "Kwashiorkor vs Marasmus", fact: "Protein deficiency (edema) vs total calorie deficiency (wasting, no edema)" },
+          { term: "Pellagra", fact: "Niacin (B3) deficiency → 3 D's: Dermatitis, Diarrhea, Dementia" }
+        ]
+      },
+      biostats: {
+        emoji: "📊", name: "Biostats", color: "#2a7fd4",
+        title: "Study Design & Statistical Tests", week: "Week 2", duration: "~38 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Biostatistics and Epidemiology. This is one of the most consistently tested and most underestimated topics on the exam. Students often skip biostats thinking it won't be heavily tested — and then they're surprised on test day. The good news is that biostats is highly learnable and very formulaic. Once you have the 2-by-2 table memorized and the key formulas down, you can answer most biostats questions in under 60 seconds." },
+          { name: "Study Design Types", emoji: "📋", time: "2:00", text: "There are four main observational study designs plus the experimental RCT. Cross-sectional studies measure prevalence at one point in time — they cannot determine causality. Case-control studies start with the disease and look back at exposure — they use odds ratios and are good for rare diseases. Cohort studies start with exposure and follow forward to see who develops disease — they calculate relative risk and are good for rare exposures. Randomized controlled trials are the gold standard for causality — they control for confounders through randomization. Meta-analyses synthesize multiple studies and are at the top of the evidence hierarchy." },
+          { name: "2×2 Table & Calculations", emoji: "🔢", time: "8:00", text: "The 2-by-2 table is the foundation of all biostatistics calculations. Draw a table with disease status as columns — disease positive on the left, disease negative on the right. Exposure status is rows — exposed on top, unexposed on bottom. Cell A is true positives — exposed and diseased. Cell B is false positives — exposed but not diseased. Cell C is false negatives — unexposed but diseased. Cell D is true negatives — unexposed and not diseased. From this table you can calculate every epidemiological measure. Relative risk is A over A plus B, divided by C over C plus D. Odds ratio is A times D divided by B times C." },
+          { name: "Sensitivity & Specificity", emoji: "🎯", time: "15:00", text: "Sensitivity equals true positives divided by all people with the disease — that is A over A plus C. A highly sensitive test, when negative, rules out disease. Remember the mnemonic SnNout — Sensitive, Negative, rules Out. Specificity equals true negatives divided by all people without the disease — D over B plus D. A highly specific test, when positive, rules in disease — SpPin. Sensitivity and specificity are fixed properties of the test and do NOT change with prevalence. However, positive predictive value and negative predictive value DO change with prevalence. Higher prevalence increases PPV. Lower prevalence increases NPV." },
+          { name: "Statistical Tests", emoji: "📈", time: "21:00", text: "Match the data type to the correct statistical test. Comparing two means of continuous data — use the t-test. Comparing three or more group means — use ANOVA, analysis of variance. Comparing proportions or categorical data — use the chi-squared test. Measuring association between two continuous variables — use Pearson's correlation coefficient. When data is not normally distributed, use non-parametric tests: Mann-Whitney U instead of t-test, Kruskal-Wallis instead of ANOVA, Spearman's rank instead of Pearson's." },
+          { name: "Bias & Confounding", emoji: "🔍", time: "27:00", text: "Bias is a systematic error that distorts study results. Selection bias occurs when the study sample is not representative of the population. Recall bias occurs in case-control studies — people with disease remember exposures more vividly than controls. Lead-time bias makes screening appear to increase survival when it only advances the time of diagnosis. Confounding occurs when a third variable is associated with both the exposure and the outcome, creating a spurious association. Randomization controls for known and unknown confounders in RCTs. Stratification and multivariable regression control for confounders in observational studies." },
+          { name: "High-Yield Review", emoji: "🎯", time: "34:00", text: "Key takeaways: case-control uses odds ratios and is ideal for rare diseases. Cohort uses relative risk and is ideal for rare exposures. Sensitivity and specificity don't change with prevalence — PPV and NPV do. SnNout and SpPin. The 2-by-2 table: A is TP, B is FP, C is FN, D is TN. Relative risk equals incidence in exposed divided by incidence in unexposed. Odds ratio approximates relative risk when disease prevalence is low. Type I error is a false positive — alpha is 0.05. Type II error is a false negative — power equals 1 minus beta. To increase power: increase sample size, increase effect size, or increase alpha." }
+        ],
+        highYield: [
+          { term: "Case-control", fact: "Odds ratio; ideal for rare diseases; retrospective" },
+          { term: "Cohort", fact: "Relative risk; ideal for rare exposures; prospective or retrospective" },
+          { term: "SnNout / SpPin", fact: "Sensitive Negative rules Out; Specific Positive rules In" },
+          { term: "2×2 Table", fact: "A=TP, B=FP, C=FN, D=TN — foundation for all epi calculations" },
+          { term: "Type I error (α)", fact: "False positive; rejecting a true null hypothesis (α = 0.05)" },
+          { term: "Power", fact: "1 − β; increase with larger sample size or larger effect size" }
+        ]
+      },
+      micro: {
+        emoji: "🦠", name: "Micro", color: "#7c3aed",
+        title: "Bacteria: Cell Wall & Gram Staining", week: "Week 3", duration: "~45 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Microbiology. Today we're tackling bacterial classification — a topic that forms the backbone of every infectious disease question on the exam. If you can look at a clinical vignette, identify the organism from the context clues, and match it to the right antibiotic, you'll handle a huge portion of the microbiology questions. Let's build that framework from the cell wall up." },
+          { name: "Gram Positive vs Negative", emoji: "🔬", time: "1:30", text: "Gram staining is fundamental to bacterial classification. Gram-positive bacteria have a thick peptidoglycan cell wall that retains the crystal violet dye and stains purple. Gram-negative bacteria have a thin peptidoglycan layer sandwiched between the inner membrane and an outer membrane containing lipopolysaccharide — they lose the crystal violet during the decolorization step and pick up the safranin counterstain, appearing pink or red. The outer membrane of gram-negative bacteria confers additional antibiotic resistance and is responsible for endotoxin release. Teichoic acid is unique to gram-positive cell walls." },
+          { name: "Gram-Positive Cocci", emoji: "🟣", time: "8:00", text: "Gram-positive cocci divide into Staph and Strep based on the catalase test. Staph is catalase positive. Within Staph, coagulase separates S. aureus — coagulase positive — from S. epidermidis and S. saprophyticus, which are coagulase negative. S. aureus produces protein A, which binds IgG and helps evade phagocytosis. MRSA is resistant to all beta-lactam antibiotics because of an altered penicillin-binding protein 2a encoded by the mecA gene. Strep is catalase negative. Alpha-hemolytic Strep includes S. pneumoniae and viridans strep. Beta-hemolytic Strep includes S. pyogenes group A and S. agalactiae group B." },
+          { name: "Gram-Positive Rods", emoji: "🧫", time: "15:00", text: "The high-yield gram-positive rods are Bacillus, Clostridium, Listeria, and Corynebacterium. Bacillus anthracis causes anthrax and has a poly-D-glutamate capsule that is uniquely non-protein. Bacillus cereus causes food poisoning from reheated rice. Clostridium species are obligate anaerobes that produce powerful exotoxins — C. difficile causes pseudomembranous colitis after antibiotic use, treat with vancomycin or fidaxomicin. C. perfringens causes gas gangrene. C. botulinum causes flaccid paralysis by blocking acetylcholine release. C. tetani causes spastic paralysis by blocking glycine and GABA release. Listeria monocytogenes shows tumbling motility on wet prep and is transmitted via unpasteurized dairy — treat with ampicillin." },
+          { name: "Gram-Negative Rods", emoji: "🔴", time: "22:00", text: "Gram-negative rods include the Enterobacteriaceae and several important non-enteric organisms. From the Enterobacteriaceae: E. coli is the most common cause of UTI and neonatal meningitis and makes Shiga-like toxin in EHEC serotype O157:H7. Klebsiella causes pneumonia in alcoholics — classically with a currant jelly sputum. Salmonella is non-lactose fermenting and causes bloody diarrhea with rose spots on the abdomen in typhoid fever — it can hide inside macrophages. Shigella causes bloody dysentery and only requires a very low infectious dose. Pseudomonas aeruginosa is an obligate aerobe that produces a blue-green pigment called pyocyanin — it is a major pathogen in cystic fibrosis and burn patients." },
+          { name: "Atypicals & Intracellulars", emoji: "🧬", time: "30:00", text: "Atypical bacteria lack a cell wall entirely or have unusual cell wall compositions, making beta-lactam antibiotics ineffective. Mycoplasma pneumoniae lacks a cell wall completely — it causes walking pneumonia with a gradual onset, dry cough, and a chest X-ray worse than the patient appears. Diagnose with cold agglutinins. Chlamydia is an obligate intracellular organism that cannot make its own ATP — it exists in two forms: the elementary body that is infectious, and the reticulate body that replicates inside the host cell. Rickettsia is another obligate intracellular pathogen transmitted by arthropod vectors. Treat all atypicals with doxycycline or a macrolide — never with beta-lactams." },
+          { name: "High-Yield Review", emoji: "🎯", time: "38:00", text: "Lock these in: Gram-positive is purple, thick peptidoglycan. Gram-negative is pink, thin peptidoglycan plus outer membrane with LPS endotoxin. S. aureus is catalase positive and coagulase positive — MRSA uses mecA. Encapsulated organisms use the SHiNE MY SHOES mnemonic — these are the ones that asplenic patients cannot clear. Listeria is gram-positive, tumbling, treat with ampicillin. C. botulinum blocks ACh release causing descending flaccid paralysis. C. tetani blocks glycine and GABA causing spastic paralysis. Atypicals have no cell wall — treat with doxycycline or macrolides. Mycoplasma causes walking pneumonia with cold agglutinins. Chlamydia has elementary and reticulate body forms." }
+        ],
+        highYield: [
+          { term: "Catalase test", fact: "Staph (+) vs Strep (−); Coagulase separates S. aureus from CoNS" },
+          { term: "MRSA", fact: "mecA gene → altered PBP2a → resistant to all β-lactams" },
+          { term: "C. botulinum vs C. tetani", fact: "Botulinum: flaccid paralysis (blocks ACh). Tetani: spastic paralysis (blocks GABA/glycine)" },
+          { term: "Listeria", fact: "Gram-positive rod, tumbling motility, unpasteurized dairy → treat with ampicillin" },
+          { term: "Mycoplasma", fact: "No cell wall, walking pneumonia, cold agglutinins, treat with macrolides" },
+          { term: "SHiNE MY SHOES", fact: "Encapsulated organisms: Strep pneumo, H. flu, Neisseria, E. coli, and more" }
+        ]
+      },
+      pharm: {
+        emoji: "💊", name: "Pharm", color: "#e05c1a",
+        title: "Autonomic Pharmacology", week: "Week 4", duration: "~50 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Pharmacology. Today we're covering autonomic pharmacology — one of the most heavily tested pharm topics on Step 1. This material ties directly into cardiology, pulmonology, ophthalmology, and emergency medicine questions. Once you master the receptor subtypes and know which drugs hit which receptors with what effect, you can predict clinical outcomes and antidote choices without memorizing every individual drug." },
+          { name: "ANS Overview", emoji: "🧠", time: "2:00", text: "The autonomic nervous system has two divisions: sympathetic and parasympathetic. Both use acetylcholine at preganglionic synapses — acting on nicotinic receptors. Sympathetic postganglionic neurons release norepinephrine onto adrenergic receptors. Parasympathetic postganglionic neurons release acetylcholine onto muscarinic receptors. The adrenal medulla is a modified sympathetic ganglion that releases epinephrine and norepinephrine directly into the bloodstream. Remember that the fight-or-flight response is sympathetic, and the rest-and-digest response is parasympathetic." },
+          { name: "Cholinergics", emoji: "💧", time: "9:00", text: "Direct-acting muscarinic agonists include bethanechol for urinary retention and post-op ileus, pilocarpine for glaucoma and Sjögren's syndrome, and carbachol. These drugs stimulate SLUDD: Salivation, Lacrimation, Urination, Defecation, and Digestion. Acetylcholinesterase inhibitors are indirect-acting cholinergics — they prevent breakdown of acetylcholine. Neostigmine and pyridostigmine treat myasthenia gravis and reverse neuromuscular blockade. Physostigmine crosses the blood-brain barrier and treats anticholinergic toxicity. Edrophonium was used diagnostically in the Tensilon test for myasthenia gravis. Donepezil, rivastigmine, and galantamine are centrally-acting AChE inhibitors used in Alzheimer's disease." },
+          { name: "Anticholinergics", emoji: "🚫", time: "16:00", text: "Atropine is the prototype muscarinic antagonist. The anticholinergic toxidrome is remembered as: hot as a hare, dry as a bone, red as a beet, blind as a bat, mad as a hatter, and full as a flask. This translates to hyperthermia, dry skin, flushing, mydriasis, delirium, and urinary retention. Atropine is used to treat organophosphate poisoning, symptomatic bradycardia, and to cause mydriasis for eye exams. Scopolamine treats motion sickness. Ipratropium and tiotropium are inhaled muscarinic antagonists used in COPD — they cause bronchodilation by blocking bronchoconstriction. Benztropine and trihexyphenidyl treat Parkinson's disease by reducing cholinergic tone in the basal ganglia." },
+          { name: "Adrenergics & Agonists", emoji: "⚡", time: "23:00", text: "Adrenergic receptors: alpha-1 receptors cause vasoconstriction and increase peripheral resistance. Alpha-2 receptors are presynaptic autoreceptors that decrease NE release — also on pancreatic beta cells, decreasing insulin release. Beta-1 receptors are found primarily in the heart — they increase heart rate, contractility, and renin release. Remember: one heart, one beta-1. Beta-2 receptors are found in bronchial smooth muscle, uterine smooth muscle, and vascular smooth muscle — they cause relaxation. Remember: two lungs, beta-2. Epinephrine hits all four receptor subtypes. Norepinephrine hits alpha-1, alpha-2, and beta-1 but not beta-2. Dobutamine is a selective beta-1 agonist used in acute heart failure and cardiac stress testing." },
+          { name: "Adrenergic Blockers", emoji: "🛡️", time: "30:00", text: "Nonselective beta-blockers like propranolol block both beta-1 and beta-2 receptors — avoid in asthma because blocking beta-2 causes bronchoconstriction. Cardioselective beta-1 blockers include metoprolol, atenolol, and esmolol — safer in asthma but not completely safe at high doses. Carvedilol and labetalol block both alpha-1 and beta receptors — labetalol is the drug of choice for hypertensive emergency in pregnancy. Alpha-1 blockers like prazosin, terazosin, and doxazosin treat hypertension and BPH — they cause orthostatic hypotension. Clonidine is a central alpha-2 agonist that decreases sympathetic outflow — used in hypertension and ADHD. Organophosphate poisoning causes irreversible AChE inhibition — treat with atropine plus pralidoxime." },
+          { name: "High-Yield Review", emoji: "🎯", time: "40:00", text: "Key takeaways from autonomic pharmacology. Sympathetic uses NE on adrenergic receptors, parasympathetic uses ACh on muscarinic receptors, both use ACh on nicotinic at ganglia. Alpha-1: vasoconstriction. Beta-1: heart rate and contractility — one heart. Beta-2: bronchodilation and vasodilation — two lungs. Epinephrine hits everything. Norepinephrine spares beta-2 causing reflex bradycardia. Atropine toxidrome: hot, dry, red, blind, mad, full. Organophosphates: SLUDGE and DUMBELS toxidrome — treat with atropine plus pralidoxime. Cardioselective beta-blockers are metoprolol, atenolol, esmolol. Labetalol for hypertensive emergency in pregnancy." }
+        ],
+        highYield: [
+          { term: "Alpha-1", fact: "Vasoconstriction, increase peripheral resistance" },
+          { term: "Beta-1", fact: "Heart: ↑HR, ↑contractility, ↑renin — 'one heart, one beta-1'" },
+          { term: "Beta-2", fact: "Lungs: bronchodilation; uterine relaxation — 'two lungs, beta-2'" },
+          { term: "Anticholinergic toxidrome", fact: "Hot, dry, red, blind, mad, full — treat with physostigmine" },
+          { term: "Organophosphate poisoning", fact: "Irreversible AChE inhibition → SLUDGE → atropine + pralidoxime" },
+          { term: "Labetalol", fact: "α1 + β blocker; drug of choice for HTN emergency in pregnancy" }
+        ]
+      },
+      cardio: {
+        emoji: "❤️", name: "Cardio", color: "#dc2626",
+        title: "Heart Failure & Cardiac Output", week: "Week 5", duration: "~48 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Cardiology. Heart failure is one of the highest-yield topics on the exam — it ties together physiology, pathology, and pharmacology in a way the USMLE loves to test. Understanding why a patient develops heart failure, how their heart compensates, and which medications reduce mortality will carry you through dozens of questions." },
+          { name: "Cardiac Output & Starling", emoji: "📊", time: "2:00", text: "Cardiac output equals stroke volume multiplied by heart rate. Stroke volume is determined by three factors: preload, afterload, and contractility. Preload is the end-diastolic volume — the amount of blood in the ventricle before contraction, which corresponds to right atrial pressure. Afterload is the systemic vascular resistance — the force the heart must overcome to eject blood. Contractility is the intrinsic strength of the myocardium, independent of preload and afterload. Starling's law states that increased preload leads to increased stroke volume, up to a point. In heart failure, the Starling curve is depressed — the heart needs more preload to generate the same output, and eventually cannot increase output further." },
+          { name: "Systolic vs Diastolic HF", emoji: "💔", time: "10:00", text: "Systolic heart failure, also called heart failure with reduced ejection fraction or HFrEF, has an ejection fraction below 40 percent. The heart cannot squeeze properly. This is the dilated cardiomyopathy picture — large, weak ventricle. Causes include ischemic heart disease, chronic hypertension, and alcohol use. Diastolic heart failure, or heart failure with preserved ejection fraction HFpEF, has an EF above 50 percent. The heart cannot relax and fill properly because the ventricle is stiff and hypertrophied. This is more common in elderly women with long-standing hypertension. Both types present with dyspnea, orthopnea, and edema — but BNP is elevated in both." },
+          { name: "HF Pharmacotherapy", emoji: "💊", time: "18:00", text: "The four drug classes proven to reduce mortality in systolic HFrEF are: ACE inhibitors or ARBs, which reduce afterload and prevent remodeling — replace with sacubitril-valsartan for additional benefit. Beta-blockers — specifically carvedilol, metoprolol succinate, or bisoprolol — reduce sympathetic overstimulation and prevent arrhythmias. Spironolactone or eplerenone — aldosterone antagonists that reduce fibrosis and decrease volume overload. SGLT-2 inhibitors — dapagliflozin and empagliflozin — the newest class shown to reduce hospitalizations and mortality in heart failure. Loop diuretics like furosemide improve symptoms of volume overload but do not reduce mortality." },
+          { name: "Arrhythmias & EKG", emoji: "📈", time: "26:00", text: "Master the EKG intervals. The PR interval should be 120 to 200 milliseconds — prolonged PR indicates first-degree AV block. QRS duration under 120 milliseconds is normal — widened QRS suggests bundle branch block or ventricular origin. QTc prolongation predisposes to torsades de pointes, a polymorphic ventricular tachycardia. Atrial fibrillation shows an irregularly irregular rhythm with no distinct P waves — the most common sustained arrhythmia, associated with thromboembolism requiring anticoagulation. Ventricular fibrillation is a shockable rhythm treated with immediate defibrillation. WPW syndrome has a delta wave and short PR from an accessory pathway — avoid AV nodal blocking agents." },
+          { name: "Valvular Disease", emoji: "🫀", time: "34:00", text: "Aortic stenosis produces a crescendo-decrescendo systolic murmur at the right upper sternal border that radiates to the carotids. The classic symptomatic triad is syncope, angina, and heart failure. Aortic regurgitation causes a decrescendo diastolic murmur at the left sternal border. Chronic AR leads to a wide pulse pressure and bounding pulses — Corrigan's pulse. Mitral stenosis from rheumatic fever causes a low-pitched, mid-diastolic rumble at the apex heard best in the left lateral decubitus position. Mitral regurgitation causes a holosystolic murmur at the apex radiating to the axilla. MVP causes a mid-systolic click followed by a late systolic murmur — the click moves earlier with decreased preload." },
+          { name: "High-Yield Review", emoji: "🎯", time: "42:00", text: "Lock these in: CO equals SV times HR. SV depends on preload, afterload, and contractility. HFrEF has EF below 40 — dilated weak heart. HFpEF has EF above 50 — stiff hypertrophied heart. Four mortality-reducing drugs in HFrEF: ACEi or ARB, beta-blocker, aldosterone antagonist, SGLT-2 inhibitor. A-fib is irregularly irregular — anticoagulate to prevent stroke. QTc prolongation causes torsades. Aortic stenosis: crescendo-decrescendo at RUSB, syncope-angina-HF triad. MVP: mid-systolic click. Know the murmur timing and location for all four major valvular lesions cold." }
+        ],
+        highYield: [
+          { term: "CO = SV × HR", fact: "SV determined by preload, afterload, and contractility" },
+          { term: "HFrEF (EF < 40%)", fact: "Dilated cardiomyopathy; four drug classes reduce mortality" },
+          { term: "HFpEF (EF > 50%)", fact: "Stiff hypertrophied ventricle; no proven mortality-reducing drugs" },
+          { term: "A-fib", fact: "Irregularly irregular, no P waves → anticoagulate" },
+          { term: "Aortic stenosis", fact: "Crescendo-decrescendo systolic murmur at RUSB → syncope, angina, HF" },
+          { term: "MVP", fact: "Mid-systolic click + late systolic murmur; click earlier with ↓ preload" }
+        ]
+      },
+      endo: {
+        emoji: "🧬", name: "Endo", color: "#d97706",
+        title: "Diabetes & Insulin Physiology", week: "Week 6", duration: "~46 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Endocrinology. Diabetes alone accounts for a significant portion of exam questions — and it connects to renal, cardiovascular, ophthalmologic, and neurologic complications. Mastering the diabetes content also prepares you for DKA management, the pharmacology of antidiabetic agents, and the endocrine feedback axis questions. Let's build the framework." },
+          { name: "Pancreas & Insulin Secretion", emoji: "🔬", time: "2:00", text: "The endocrine pancreas contains the islets of Langerhans. Alpha cells secrete glucagon in response to hypoglycemia — glucagon stimulates glycogenolysis and gluconeogenesis in the liver. Beta cells secrete insulin in response to hyperglycemia — insulin is the primary anabolic hormone. Delta cells secrete somatostatin, which inhibits both insulin and glucagon release. F cells secrete pancreatic polypeptide. Insulin secretion is stimulated by glucose, amino acids, GLP-1, GIP, and acetylcholine. Insulin promotes GLUT-4 mediated glucose uptake in muscle and adipose, glycogen synthesis, lipogenesis, and protein synthesis — while inhibiting gluconeogenesis, glycogenolysis, lipolysis, and ketogenesis." },
+          { name: "Type 1 vs Type 2 DM", emoji: "⚖️", time: "9:00", text: "Type 1 diabetes is an autoimmune disease in which CD4 and CD8 T cells destroy beta cells. It is associated with HLA-DR3 and HLA-DR4, and with other autoimmune conditions. Patients have absolute insulin deficiency, tend to be lean and young, and are prone to diabetic ketoacidosis. Type 2 diabetes is characterized by insulin resistance in peripheral tissues followed by relative insulin deficiency when the pancreas can no longer compensate. It is strongly associated with obesity, physical inactivity, and family history. Type 2 patients often have acanthosis nigricans and may develop hyperosmolar hyperglycemic state. The diagnosis of diabetes requires a fasting glucose above 126, HbA1c of 6.5 or above, or a 2-hour glucose tolerance test above 200." },
+          { name: "DKA vs HHS", emoji: "🚨", time: "17:00", text: "Diabetic ketoacidosis occurs predominantly in Type 1 diabetes and is triggered by infection, insulin omission, or another stressor. The pathophysiology involves absolute insulin deficiency leading to lipolysis and ketone body formation, producing an anion-gap metabolic acidosis. Patients present with Kussmaul respirations, fruity breath from acetone, nausea, vomiting, and abdominal pain. Treatment is IV normal saline for volume, insulin infusion, and potassium replacement — remember that insulin drives K into cells so you must check and replace K before starting insulin if it is low. Hyperosmolar hyperglycemic state occurs in Type 2 — glucose is often above 600, osmolarity is severely elevated, but residual insulin prevents significant ketosis. Mortality from HHS is actually higher than DKA." },
+          { name: "Antidiabetic Drugs", emoji: "💊", time: "24:00", text: "Metformin is first-line for Type 2 diabetes. It decreases hepatic glucose production by activating AMPK, does not cause hypoglycemia, promotes modest weight loss, and reduces cardiovascular events. Contraindicated in significant CKD due to risk of lactic acidosis. Sulfonylureas like glipizide and glimepiride close K-ATP channels in beta cells, stimulating insulin secretion — they cause hypoglycemia and weight gain. GLP-1 receptor agonists like semaglutide and liraglutide increase insulin secretion in a glucose-dependent manner, suppress glucagon, delay gastric emptying, and cause significant weight loss — they reduce cardiovascular and renal events. SGLT-2 inhibitors block glucose reabsorption in the proximal tubule — they cause glucosuria, reduce blood pressure, and have major cardiovascular and renal protective effects. DPP-4 inhibitors are the gliptins — they prevent GLP-1 degradation and are weight-neutral." },
+          { name: "Thyroid Disorders", emoji: "🦋", time: "32:00", text: "The thyroid axis: TRH from the hypothalamus stimulates TSH from the anterior pituitary, which stimulates T4 and T3 release from the thyroid. T4 is converted to the active T3 by deiodinase in peripheral tissues. Hypothyroidism presents with fatigue, weight gain, cold intolerance, constipation, dry skin, bradycardia, and delayed deep tendon reflexes. Hashimoto's thyroiditis is the most common cause in iodine-sufficient regions — associated with anti-TPO and anti-thyroglobulin antibodies, leading to lymphocytic infiltration and eventual gland destruction. Hyperthyroidism presents with weight loss despite increased appetite, heat intolerance, sweating, tachycardia, fine tremor, and exophthalmos in Graves' disease. Graves' disease is caused by TSI antibodies that stimulate TSH receptors." },
+          { name: "High-Yield Review", emoji: "🎯", time: "40:00", text: "Key takeaways: Type 1 is autoimmune, HLA-DR3/DR4, absolute insulin deficiency, prone to DKA. Type 2 is insulin resistance plus relative deficiency, treat with metformin first. DKA: anion-gap acidosis, ketonemia, Kussmaul breathing — check K before starting insulin. HHS: glucose above 600, hyperosmolar, no significant ketosis, higher mortality. Metformin reduces hepatic glucose via AMPK — hold in severe CKD. GLP-1 agonists and SGLT-2 inhibitors reduce cardiovascular and renal events. TSH is HIGH in primary hypothyroidism, LOW in secondary. Hashimoto's has anti-TPO antibodies. Graves' has TSI stimulating antibodies — treat with methimazole, radioactive iodine, or surgery." }
+        ],
+        highYield: [
+          { term: "Type 1 DM", fact: "Autoimmune β-cell destruction, HLA-DR3/DR4, absolute insulin deficiency → DKA" },
+          { term: "Type 2 DM", fact: "Insulin resistance → relative deficiency; metformin first-line" },
+          { term: "DKA treatment", fact: "IV fluids, insulin, K+ replacement — check K before insulin" },
+          { term: "Metformin", fact: "Activates AMPK, ↓ hepatic glucose output, no hypoglycemia, hold in CKD" },
+          { term: "GLP-1 agonists", fact: "Semaglutide, liraglutide — weight loss + CV/renal protection" },
+          { term: "Hashimoto's", fact: "Anti-TPO antibodies, lymphocytic infiltration → hypothyroidism" }
+        ]
+      },
+      neuro: {
+        emoji: "🧠", name: "Neuro", color: "#0891b2",
+        title: "Stroke Syndromes & Neuroanatomy", week: "Week 7", duration: "~52 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to Step 1 Neurology. Stroke syndromes are among the most beloved vignette types on the USMLE because they test neuroanatomy, pathophysiology, and clinical recognition all at once. If you can take a description of motor and sensory deficits, plus any additional findings, and localize the lesion to a specific artery or brain region, you'll ace these questions every time." },
+          { name: "Cortical Lobes & Functions", emoji: "🧩", time: "2:00", text: "The frontal lobe contains the primary motor cortex in the precentral gyrus — it controls contralateral voluntary movement. Broca's area, in the inferior frontal gyrus of the dominant hemisphere, controls speech production — damage causes expressive aphasia, where patients know what they want to say but cannot get it out. The parietal lobe contains the primary somatosensory cortex in the postcentral gyrus. The dominant parietal lobe contains Wernicke's area, which processes language comprehension — damage causes fluent but nonsensical speech. The temporal lobe handles memory, hearing, and in the non-dominant hemisphere, spatial processing. The occipital lobe contains the primary visual cortex — lesions cause contralateral homonymous hemianopia." },
+          { name: "Ischemic Stroke Types", emoji: "🩸", time: "10:00", text: "The middle cerebral artery supplies the lateral cortex — MCA strokes cause contralateral face and arm weakness greater than leg weakness, contralateral sensory loss, and homonymous hemianopia. Left MCA strokes cause aphasia. The anterior cerebral artery supplies the medial cortex — ACA strokes cause contralateral leg weakness greater than arm weakness, and abulia or personality changes from frontal involvement. The posterior cerebral artery supplies the occipital lobe and thalamus — PCA strokes cause contralateral homonymous hemianopia with macular sparing. PICA strokes cause Wallenberg syndrome or lateral medullary syndrome — ipsilateral facial numbness, contralateral body numbness, dysphagia, hoarseness, and vertigo. Lacunar infarcts from small vessel disease cause pure motor or pure sensory deficits without cortical signs." },
+          { name: "Hemorrhagic Stroke", emoji: "🔴", time: "19:00", text: "Epidural hematoma results from rupture of the middle meningeal artery, classically after a temporal bone fracture. The blood accumulates between the skull and the dura, appearing as a biconvex lens-shaped hyperdensity on CT. The classic presentation is a brief loss of consciousness, followed by a lucid interval, followed by rapid neurological deterioration — this is a neurosurgical emergency. Subdural hematoma results from rupture of bridging veins, which are more vulnerable in elderly and alcoholic patients due to cortical atrophy. It appears as a crescent-shaped hyperdensity on CT and has a slower, more insidious course. Subarachnoid hemorrhage most commonly results from rupture of a berry aneurysm at arterial branch points in the Circle of Willis — patients describe the worst headache of their life." },
+          { name: "Cranial Nerves", emoji: "👁️", time: "27:00", text: "Know all 12 cranial nerves and their functions. CN III, the oculomotor nerve, controls most extraocular movements and pupillary constriction via parasympathetics. CN III palsy presents with a down-and-out eye, ptosis, and a dilated, unreactive pupil — the pupil is affected because the parasympathetic fibers run on the outside of the nerve and are compressed first by aneurysm or herniation. CN VII palsy — distinguishing upper from lower motor neuron is critical. Upper motor neuron lesions from stroke spare the forehead because the upper face has bilateral cortical representation. Lower motor neuron CN VII palsy, as in Bell's palsy, affects the entire ipsilateral face including the forehead. CN VIII damage causes hearing loss and vestibular dysfunction. Acoustic neuroma, a benign schwannoma at the cerebellopontine angle, causes unilateral sensorineural hearing loss and tinnitus." },
+          { name: "Seizures & Epilepsy", emoji: "⚡", time: "35:00", text: "Classify seizures as focal or generalized. Focal seizures start in one hemisphere — focal aware seizures without loss of consciousness, or focal impaired awareness seizures with altered consciousness. Generalized seizures involve both hemispheres from onset. Absence seizures are a type of generalized seizure presenting with brief staring spells, no post-ictal confusion, and a characteristic 3 hertz spike-and-wave pattern on EEG. They occur primarily in children and are treated first-line with ethosuximide. Generalized tonic-clonic seizures involve tonic stiffening followed by clonic jerking, followed by a postictal period of confusion and fatigue. Status epilepticus is defined as a seizure lasting more than 5 minutes or two seizures without recovery between them — treat immediately with IV benzodiazepines, then fosphenytoin or valproate, then anesthetic agents if refractory." },
+          { name: "High-Yield Review", emoji: "🎯", time: "43:00", text: "Top points: Broca's area in inferior frontal gyrus — expressive aphasia, patients cannot speak fluently. Wernicke's area — receptive aphasia, fluent but nonsensical speech. MCA stroke: face and arm greater than leg weakness plus homonymous hemianopia. ACA stroke: leg greater than arm weakness. PCA stroke: homonymous hemianopia with macular sparing. Wallenberg syndrome from PICA: crossed sensory findings plus dysphagia and hoarseness. Epidural hematoma: biconvex, middle meningeal artery, lucid interval — surgical emergency. Subdural: crescent-shaped, bridging veins, slow course. CN III palsy: down and out eye plus dilated pupil — always think aneurysm or herniation. Absence seizures: 3 Hz spike-and-wave, treat with ethosuximide." }
+        ],
+        highYield: [
+          { term: "Broca's vs Wernicke's", fact: "Broca: expressive (non-fluent). Wernicke: receptive (fluent but nonsensical)" },
+          { term: "MCA stroke", fact: "Face + arm > leg weakness; homonymous hemianopia; aphasia if left" },
+          { term: "Wallenberg (PICA)", fact: "Lateral medullary syndrome: crossed sensory, dysphagia, hoarseness, vertigo" },
+          { term: "Epidural hematoma", fact: "Middle meningeal artery, biconvex on CT, lucid interval" },
+          { term: "CN III palsy", fact: "Down-and-out eye, ptosis, dilated pupil → aneurysm or herniation" },
+          { term: "Absence seizures", fact: "3 Hz spike-and-wave on EEG; treat with ethosuximide" }
+        ]
+      },
+      daily: {
+        emoji: "📅", name: "Daily", color: "#059669",
+        title: "Day 1: Cross-System High-Yield Blitz", week: "Daily Series", duration: "~20 min",
+        sections: [
+          { name: "Intro", emoji: "👋", time: "0:00", text: "Welcome to your Day 1 daily review — a focused 20-minute cross-system blitz hitting the highest-yield concepts across nutrition, biostats, microbiology, and cardiology. Use this every morning to reinforce what you studied the day before. The rapid-fire format keeps your recall sharp and your connections between topics strong. Let's go." },
+          { name: "Nutrition Flash", emoji: "🥗", time: "2:00", text: "B-vitamin deficiencies — Thiamine B1: deficiency causes beriberi, wet form with high-output cardiac failure, or dry form with peripheral neuropathy, and Wernicke-Korsakoff syndrome in alcoholics. Remember: always give thiamine before glucose in any patient who may be thiamine-deficient — giving glucose first can precipitate Wernicke's by depleting the remaining thiamine. Riboflavin B2: corneal vascularization, cheilosis, and glossitis — the 2 C's plus glossitis. Niacin B3: the 3 D's of pellagra — Dermatitis in sun-exposed areas, Diarrhea, and Dementia. Pyridoxine B6: sideroblastic anemia and peripheral neuropathy — deficiency is caused by isoniazid, which is why we co-administer B6 with INH therapy." },
+          { name: "Biostats Flash", emoji: "📊", time: "6:00", text: "Sensitivity and specificity are intrinsic properties of the test — they do not change with the prevalence of the disease in the population. Positive predictive value and negative predictive value do change with prevalence. If disease prevalence is high, PPV goes up. If prevalence is low, NPV goes up. For Step 1, when asked which test to use for screening a low-prevalence population, always choose the test with high sensitivity — because you want to catch as many true cases as possible, minimizing false negatives. For confirmation of disease in a high pre-test probability patient, choose high specificity to rule in the disease with confidence. SnNout and SpPin — engrave these in your memory." },
+          { name: "Micro Flash", emoji: "🦠", time: "10:00", text: "Encapsulated organisms and asplenic patients — this is a classic Step 1 combination. The major encapsulated organisms are remembered with SHiNE MY SHOES: Streptococcus pneumoniae, Haemophilus influenzae type b, Neisseria meningitidis, E. coli, Moraxella catarrhalis, group B Streptococcus, Salmonella typhi. Asplenic patients, including those with sickle cell disease who functionally auto-infarct their spleen, cannot mount an effective antibody response to polysaccharide capsules. They are at dramatically increased risk for overwhelming post-splenectomy infection, most commonly from Strep pneumoniae. All asplenic patients must be vaccinated against Pneumococcus, Meningococcus, and H. influenzae type b, and must receive prophylactic penicillin in certain cases." },
+          { name: "Cardio Flash", emoji: "❤️", time: "14:00", text: "Systolic versus diastolic heart failure. Systolic HF, HFrEF with EF below 40: dilated cardiomyopathy picture — large flabby heart. The four mortality-reducing drug classes are ACE inhibitors or ARBs, beta-blockers, aldosterone antagonists like spironolactone, and SGLT-2 inhibitors. Diastolic HF, HFpEF with EF above 50: stiff hypertrophied heart that can't relax to fill — most commonly in elderly hypertensive women. No drug class is firmly proven to reduce mortality in HFpEF — management focuses on controlling the underlying cause, rate control, and symptom management with diuretics. BNP is elevated in both systolic and diastolic heart failure." },
+          { name: "Rapid-Fire Q&A", emoji: "⚡", time: "18:00", text: "Rapid-fire review — answer out loud if you can. What deficiency causes pellagra? Niacin, B3. Does sensitivity change with disease prevalence? No — only PPV and NPV change. What is the most common organism causing overwhelming sepsis in an asplenic patient? Streptococcus pneumoniae. What EF defines systolic heart failure? Below 40 percent. What drug is first-line for Type 2 diabetes? Metformin. What is the antidote for organophosphate poisoning? Atropine plus pralidoxime. What mnemonic helps you remember encapsulated organisms? SHiNE MY SHOES. What is the rate-limiting enzyme of glycolysis? Phosphofructokinase-1. If you got all of those, excellent work — see you tomorrow for Day 2." }
+        ],
+        highYield: [
+          { term: "Thiamine before glucose", fact: "Always in alcoholics — prevents precipitating Wernicke's encephalopathy" },
+          { term: "SnNout / SpPin", fact: "Sensitivity & specificity don't change with prevalence; PPV & NPV do" },
+          { term: "SHiNE MY SHOES", fact: "Encapsulated organisms dangerous in asplenic patients" },
+          { term: "HFrEF drugs", fact: "ACEi/ARB + β-blocker + aldosterone antagonist + SGLT-2i reduce mortality" },
+          { term: "PFK-1", fact: "Rate-limiting enzyme of glycolysis" }
+        ]
+      }
+    };
+
+    // ===== STATE =====
+    let currentPodcast = null;
+    let currentSectionIndex = 0;
+    let isPlaying = false;
+    let selectedVoice = "Aria";
+    let cancelFlag = { cancelled: false };
+    
+
+    // ===== DOM REFS =====
+    const hubView = document.getElementById('hub-view');
+    const playerView = document.getElementById('player-view');
+    const playerHeader = document.getElementById('player-header');
+    const playerBadge = document.getElementById('player-badge');
+    const playerTitle = document.getElementById('player-title');
+    const playerMeta = document.getElementById('player-meta');
+    const sectionButtons = document.getElementById('section-buttons');
+    const nowPlayingLabel = document.getElementById('now-playing-label');
+    const nowPlayingText = document.getElementById('now-playing-text');
+    const speakingIndicator = document.getElementById('speaking-indicator');
+    const progressLabel = document.getElementById('progress-label');
+    const progressStatus = document.getElementById('progress-status');
+    const progressBar = document.getElementById('progress-bar');
+    const highYieldList = document.getElementById('high-yield-list');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+
+    // ===== NAVIGATION =====
+    function showHub() {
+      playerView.classList.add('hidden');
+      hubView.classList.remove('hidden');
+      pausePlayback();
+    }
+
+    function showPlayer(catKey) {
+      currentPodcast = podcasts[catKey];
+      currentSectionIndex = 0;
+      isPlaying = false;
+      cancelFlag.cancelled = true;
+
+      hubView.classList.add('hidden');
+      playerView.classList.remove('hidden');
+
+      document.documentElement.style.setProperty('--accent', currentPodcast.color);
+
+      playerHeader.style.background = `linear-gradient(135deg, ${currentPodcast.color}dd 0%, ${currentPodcast.color}88 100%)`;
+      playerBadge.textContent = `${currentPodcast.emoji} ${currentPodcast.name}`;
+      playerTitle.textContent = currentPodcast.title;
+      playerMeta.textContent = `${currentPodcast.duration} · ${currentPodcast.week}`;
+
+      playBtn.style.background = currentPodcast.color;
+
+      renderSectionButtons();
+      renderHighYield();
+      updateUI();
+      updateVoicePills();
+
+      if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+        lucide.createIcons();
+      }
+    }
+
+    function renderSectionButtons() {
+      sectionButtons.innerHTML = '';
+      currentPodcast.sections.forEach((sec, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'section-pill text-xs font-medium px-3 py-1.5 rounded-full border cursor-pointer min-h-[32px] transition-all';
+        btn.setAttribute('data-section-index', i);
+        btn.innerHTML = `${sec.emoji} ${sec.name} <span class="font-mono opacity-60 ml-1">${sec.time}</span>`;
+        updateSectionBtnStyle(btn, i);
+        sectionButtons.appendChild(btn);
+      });
+    }
+
+    function updateSectionBtnStyle(btn, index) {
+      const color = currentPodcast.color;
+      if (index === currentSectionIndex && isPlaying) {
+        btn.style.background = color;
+        btn.style.borderColor = color;
+        btn.style.color = '#ffffff';
+      } else if (index === currentSectionIndex) {
+        btn.style.background = `${color}22`;
+        btn.style.borderColor = color;
+        btn.style.color = '#e2e8f0';
+      } else {
+        btn.style.background = 'transparent';
+        btn.style.borderColor = 'rgba(255,255,255,0.15)';
+        btn.style.color = '#94a3b8';
+      }
+    }
+
+    function renderHighYield() {
+      highYieldList.innerHTML = '';
+      currentPodcast.highYield.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'hy-bullet';
+        div.style.borderLeftColor = currentPodcast.color;
+        div.innerHTML = `<span class="text-sm"><span class="font-semibold text-white">${item.term}:</span> <span class="text-slate-300">${item.fact}</span></span>`;
+        highYieldList.appendChild(div);
+      });
+    }
+
+    function updateUI() {
+      if (!currentPodcast) return;
+      const sec = currentPodcast.sections[currentSectionIndex];
+      const total = currentPodcast.sections.length;
+
+      if (isPlaying) {
+        nowPlayingLabel.textContent = `▶ ${sec.emoji} ${sec.name}`;
+        speakingIndicator.className = 'inline-block w-2.5 h-2.5 rounded-full speaking-dot';
+        speakingIndicator.style.background = currentPodcast.color;
+        playIcon.setAttribute('data-lucide', 'pause');
+        progressStatus.textContent = 'Speaking...';
+      } else {
+        if (currentSectionIndex === 0 && !cancelFlag.cancelled) {
+          nowPlayingLabel.textContent = 'Ready';
+        } else {
+          nowPlayingLabel.textContent = `⏸ ${sec.emoji} ${sec.name}`;
+        }
+        speakingIndicator.className = 'inline-block w-2.5 h-2.5 rounded-full';
+        speakingIndicator.style.background = '#94a3b8';
+        playIcon.setAttribute('data-lucide', 'play');
+        progressStatus.textContent = '';
+      }
+
+      nowPlayingText.innerHTML = `<p class="section-text-fade">${sec.text}</p>`;
+
+      progressLabel.textContent = `Section ${currentSectionIndex + 1} / ${total}`;
+      const pct = ((currentSectionIndex + 1) / total) * 100;
+      progressBar.style.width = `${pct}%`;
+      progressBar.style.background = currentPodcast.color;
+
+      // Update section button styles
+      document.querySelectorAll('[data-section-index]').forEach((btn, i) => {
+        updateSectionBtnStyle(btn, i);
+      });
+
+      if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+        lucide.createIcons();
+      }
+    }
+
+    function updateVoicePills() {
+      document.querySelectorAll('.voice-pill').forEach(pill => {
+        const v = pill.getAttribute('data-voice');
+        if (v === selectedVoice) {
+          pill.style.background = currentPodcast ? currentPodcast.color : '#3a9e6f';
+          pill.style.borderColor = currentPodcast ? currentPodcast.color : '#3a9e6f';
+          pill.style.color = '#ffffff';
+        } else {
+          pill.style.background = 'transparent';
+          pill.style.borderColor = 'rgba(255,255,255,0.2)';
+          pill.style.color = '#94a3b8';
+        }
+      });
+    }
+
+    // ===== TTS PLAYBACK =====
+    async function playSections(startIndex) {
+      cancelFlag = { cancelled: false };
+      isPlaying = true;
+      for (let i = startIndex; i < currentPodcast.sections.length; i++) {
+        if (cancelFlag.cancelled) break;
+        currentSectionIndex = i;
+        updateUI();
+        // Split section into sentences so TTS gets bite-sized chunks
+        const sentences = currentPodcast.sections[i].text
+          .split(/(?<=[.!?])\s+/)
+          .filter(s => s.trim().length > 0);
+        for (const sentence of sentences) {
+          if (cancelFlag.cancelled) break;
+          try {
+            await AppSDK.ai.speak({ text: sentence, voice: selectedVoice });
+          } catch (e) {
+            if (cancelFlag.cancelled) break;
+            console.error('TTS error:', e);
+            nowPlayingLabel.textContent = '⚠️ Audio error — retrying...';
+            await new Promise(r => setTimeout(r, 800));
+          }
+        }
+        if (cancelFlag.cancelled) break;
+      }
+      if (!cancelFlag.cancelled) {
+        isPlaying = false;
+        currentSectionIndex = 0;
+        progressStatus.textContent = 'Finished ✓';
+        nowPlayingLabel.textContent = 'Finished ✓';
+        speakingIndicator.className = 'inline-block w-2.5 h-2.5 rounded-full';
+        speakingIndicator.style.background = currentPodcast.color;
+        playIcon.setAttribute('data-lucide', 'play');
+        if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+          lucide.createIcons();
+        }
+        document.querySelectorAll('[data-section-index]').forEach((btn, i) => {
+          updateSectionBtnStyle(btn, i);
+        });
+      }
+    }
+
+    function pausePlayback() {
+      cancelFlag.cancelled = true;
+      isPlaying = false;
+      if (currentPodcast) updateUI();
+    }
+
+    function jumpToSection(i) {
+      pausePlayback();
+      currentSectionIndex = i;
+      updateUI();
+      setTimeout(() => playSections(i), 150);
+    }
+
+    // ===== EVENT LISTENERS =====
+    document.getElementById('back-btn').addEventListener('click', showHub);
+
+    document.getElementById('daily-banner').addEventListener('click', () => showPlayer('daily'));
+
+    document.querySelectorAll('.cat-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const cat = card.getAttribute('data-cat');
+        showPlayer(cat);
+      });
+    });
+
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        pausePlayback();
+      } else {
+        playSections(currentSectionIndex);
+      }
+    });
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      if (!currentPodcast) return;
+      pausePlayback();
+      currentSectionIndex = Math.max(0, currentSectionIndex - 1);
+      updateUI();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (!currentPodcast) return;
+      pausePlayback();
+      currentSectionIndex = Math.min(currentPodcast.sections.length - 1, currentSectionIndex + 1);
+      updateUI();
+    });
+
+    sectionButtons.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-section-index]');
+      if (btn) {
+        const idx = parseInt(btn.getAttribute('data-section-index'), 10);
+        jumpToSection(idx);
+      }
+    });
+
+    document.getElementById('voice-selector').addEventListener('click', (e) => {
+      const pill = e.target.closest('.voice-pill');
+      if (pill) {
+        selectedVoice = pill.getAttribute('data-voice');
+        updateVoicePills();
+      }
+    });
+  </script>
+</body>
+</html>
